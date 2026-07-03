@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Red Window (10s)</title>
+    <style>
+      html,body{height:100%;margin:0}
+      .red-full{background:red;height:100%;width:100%;display:flex;align-items:center;justify-content:center;color:white;font-family:Arial,Helvetica,sans-serif;font-size:24px}
+    </style>
+  </head>
+  <body>
+    <div id="status" class="red-full">Opening red window...</div>
+
+    <script>
+      function openRedPopup() {
+        const popup = window.open('', '_blank', 'toolbar=0,location=0,menubar=0,width=800,height=600');
+        if (!popup) return null;
+
+        const html = `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Red</title><style>html,body{height:100%;margin:0}body{background:red}</style></head><body></body></html>`;
+        popup.document.open();
+        popup.document.write(html);
+        popup.document.close();
+        return popup;
+      }
+
+      (function(){
+        // try to open a script-created popup (will succeed only if not blocked)
+        const popup = openRedPopup();
+        if (popup) {
+          document.getElementById('status').textContent = 'Popup opened — will close after 10 seconds.';
+          setTimeout(() => { try { popup.close(); } catch(e){} document.getElementById('status').textContent='Closed.'; }, 10000);
+        } else {
+          // fallback: paint this page red and clear after 10s
+          document.body.innerHTML = '<div class="red-full">(Fallback) Showing red for 10 seconds...</div>';
+          setTimeout(() => { document.body.innerHTML = '<div class="red-full">Closed (fallback).</div>'; }, 10000);
+        }
+      })();
+    </script>
+  </body>
+</html>
