@@ -1,7 +1,7 @@
 import time
 print("welcome to the height calculator!")
 time.sleep(1)
-print("to begin, Please enter your height:")
+print("to begin, Please enter your height in metres:")
 Height = input()
 time.sleep(1)
 print("calculating...")
